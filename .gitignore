@@ -1,0 +1,5 @@
+raw/
+clean/
+*.log
+*.zip
+environment.yml
