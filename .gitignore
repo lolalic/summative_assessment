@@ -2,4 +2,4 @@ raw/
 clean/
 *.log
 *.zip
-environment.yml
+*.yml
