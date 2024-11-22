@@ -1,6 +1,6 @@
 
 #!/bin/bash
-
+'''
 mkdir -p raw
 
 # Step 1: Download an XML file containing article IDs
@@ -36,3 +36,25 @@ done
 
 echo "All downloads completed!"
 
+'''
+
+#!/bin/bash
+
+mkdir -p raw
+
+# Step 1: Download an XML file containing article IDs
+echo "Downloading article IDs..."
+curl "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=%22long%20covid%22&retmax=10000" > raw/pmids.xml
+
+# Step 2: Extract article ID
+echo "Extracting article IDs..."
+pmids=$(grep -oP '(?<=<Id>)[^<]+' raw/pmids.xml)
+
+# Step 3: Download data for each article
+echo "Downloading articles..."
+for pmid in $pmids; do
+    curl "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=${pmid}" > raw/article-$pmid.xml
+    sleep 1
+done
+
+echo "All downloads completed!"
