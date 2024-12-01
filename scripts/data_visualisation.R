@@ -5,7 +5,7 @@ library(tidyr)
 library(tidytext)
 library(topicmodels)
 library(stringr)
-library(reshape2)
+
 
 # Load the cleaned data
 data <- read.delim("clean/articles_cleaned.tsv", stringsAsFactors = FALSE)

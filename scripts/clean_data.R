@@ -3,23 +3,24 @@ library(tidyverse)
 library(tidytext)
 library(SnowballC)
 
-# 读取 Step 2 生成的 TSV 文件
+# Read the TSV file generated in Step 2
 titles_data <- read_tsv("clean/articles_processed.tsv")
 
-# 确保数据包含 Title 和 Year 列
+# Ensure the data contains the Title and Year columns
 if (!"Title" %in% colnames(titles_data) | !"Year" %in% colnames(titles_data)) {
   stop("Title or Year column is missing in the data")
 }
 
-# 对 Title 列进行分词、去除停用词、数字，并进行词干化
+# # Tokenize the Title column, remove stop words, numbers, and apply stemming
 processed_titles <- titles_data %>%
-  unnest_tokens(word, Title) %>%  # 将 Title 列分词
-  filter(!word %in% stop_words$word) %>%  # 去除停用词
-  filter(!str_detect(word, "\\d+")) %>%  # 去除数字
-  mutate(word = wordStem(word))  # 进行词干化处理
+  unnest_tokens(word, Title) %>%  # Tokenize the Title column
+  filter(!word %in% stop_words$word) %>%  # Remove stop words
+  filter(!str_detect(word, "\\d+")) %>%  # Remove numbers
+  mutate(word = wordStem(word))  # Apply stemming
 
-# 保存处理后的数据，包括分词结果和原始年份
+# Save the processed data, including tokenized results and original year
 write_tsv(processed_titles, "clean/articles_cleaned.tsv")
 
-print("Step 3 完成：标题已处理，结果保存在 clean/articles_cleaned.tsv 文件中")
+print("Step 3 completed: Titles have been processed, and the results are saved in clean/articles_cleaned.tsv")
+
 

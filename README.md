@@ -24,7 +24,7 @@ Dependencies:
 Dependencies are specified in the environment.yml file. Install them using:
 
 conda env create -f environment.yml
-conda activate covid_analysis
+conda activate r-env
 
 
 Pipeline Overview:
@@ -43,7 +43,3 @@ Tokenizes titles, removes stop words, digits, and stems words using the tidytext
 4.Data Visualization (scripts/data_visualisation.R):
 Creates visualizations and saves them as PNG files in the clean/ directory.
 
-
-Usage Instructions:
-
-1. Clone the Repository

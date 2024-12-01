@@ -1,13 +1,11 @@
 #!/bin/bash
 
-# 创建干净数据文件夹
-mkdir -p clean
+# create a clean data folder
+# mkdir -p clean
 
-# 定义输出文件路径
+# output file path
 output_file="clean/articles_processed.tsv"
 
-# initialize TSV file and 并添加表头
-# echo -e "PMID\tYear\tTitle\tAbstract\tMESH" > "$output_file"
 
 # Configuration: Choose fields for processing
 use_abstract=true   # Set to true to include abstracts
@@ -21,7 +19,7 @@ header+="\tTitle"
 [[ "$use_mesh" == true ]] && header+="\tMESH"
 echo -e "$header" > "$output_file"
 
-# 遍历所有 XML 文件
+# Iterate through all XML files
 for file in data/article-*.xml; do
     echo "Processing file: $file"
 
@@ -66,8 +64,6 @@ for file in data/article-*.xml; do
     # Write the results to the TSV file
     echo -e "$row" >> "$output_file"
 
-    # 写入结果到 TSV 文件
-    # echo -e "$pmid\t$year\t$title\t$abstract\t$mesh" >> "$output_file"
 done
 
 echo "Data preprocessing completed. Results saved in $output_file"
