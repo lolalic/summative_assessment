@@ -5,6 +5,7 @@ library(tidyr)
 library(tidytext)
 library(topicmodels)
 library(stringr)
+library(reshape2)
 
 # Load the cleaned data
 data <- read.delim("clean/articles_cleaned.tsv", stringsAsFactors = FALSE)
@@ -17,11 +18,12 @@ word_freq <- data %>%
   summarise(count = n(), .groups = "drop") %>%
   arrange(desc(count))
 
-# Identify top 10 words by overall frequency
+# Filter words that appear in both years to avoid sparse data
 top_words <- word_freq %>%
   group_by(word) %>%
-  summarise(total_count = sum(count)) %>%
-  top_n(10, total_count) %>%
+  filter(n_distinct(Year) > 1) %>% # Ensure the word spans more than 1 year
+  summarise(total_count = sum(count), .groups = "drop") %>%
+  slice_max(total_count, n = 10) %>% # Select top 10 by total count
   pull(word)
 
 # Filter data for top words
@@ -32,6 +34,7 @@ filtered_word_freq <- word_freq %>%
 word_plot <- ggplot(filtered_word_freq, aes(x = Year, y = count,
                                             color = word, group = word)) +
   geom_line(linewidth = 1) +
+  geom_point(size = 2) +
   labs(
     title = "Trends in Word Frequency Over Time",
     x = "Year",
@@ -41,7 +44,7 @@ word_plot <- ggplot(filtered_word_freq, aes(x = Year, y = count,
   theme_minimal()
 
 # Save the plot
-ggsave("word_frequency_trends.png", plot = word_plot, width = 8, height = 6)
+ggsave("clean/word_frequency_trends.png", plot = word_plot, width = 8, height = 6)
 
 # --- 2. Changes in the Frequency of MESH Terms Over Time ---
 
@@ -81,7 +84,7 @@ mesh_plot <- ggplot(filtered_mesh_freq, aes(x = Year,
   theme_minimal()
 
 # Save the plot
-ggsave("mesh_term_frequency_trends.png", plot = mesh_plot, width = 8, height = 6)
+ggsave("clean/mesh_term_frequency_trends.png", plot = mesh_plot, width = 8, height = 6)
 
 
 # --- 3. Topic Modeling Using LDA ---
@@ -128,4 +131,4 @@ topic_plot <- ggplot(lda_documents, aes(x = Year, y = avg_gamma, color = factor(
   theme_minimal()
 
 # Save the plot
-ggsave("topic_trends_over_time.png", plot = topic_plot, width = 8, height = 6)
+ggsave("clean/topic_trends_over_time.png", plot = topic_plot, width = 8, height = 6)
