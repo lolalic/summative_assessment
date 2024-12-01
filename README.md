@@ -1,8 +1,8 @@
-COVID-19 Publications Analysis Pipeline
+**COVID-19 Publications Analysis Pipeline**
 
 This repository contains the code and resources for analyzing trends in COVID-19 research publications, focusing on "long COVID." The pipeline is implemented using Bash, R, SnakeMake, and Conda, and is designed to run on the BlueCrystal HPC environment.
 
-Repository Structure:
+**Repository Structure:**
 
 .
 ├── code/                            # Directory for all code files
@@ -19,7 +19,7 @@ Repository Structure:
 └── README.md              # This file
 
 
-Dependencies:
+**Dependencies:**
 
 Dependencies are specified in the environment.yml file. Install them using:
 
@@ -27,7 +27,7 @@ conda env create -f environment.yml
 conda activate r-env
 
 
-Pipeline Overview:
+**Pipeline Overview:**
 
 The pipeline consists of four steps:
 
